@@ -1,8 +1,8 @@
 import 'package:dartz/dartz.dart';
-import 'package:poke_app/features/pokemon_search/domain/entities/pokemon_search.dart';
-import '../../../../core/entities/failure.dart';
+import 'package:poke_app/core/entities/pokemon.dart';
+import '../../../../core/error/failure.dart';
 
 abstract class PokemonSearchRepository {
-  Future<Either<Failure, PokemonSearch>> getPokemonByName(String name);
-  Future<Either<Failure, PokemonSearch>> getPokemonById(int id);
+  Future<Either<Failure, Pokemon>> getPokemonByName(String name);
+  Future<Either<Failure, Pokemon>> getPokemonById(int id);
 }

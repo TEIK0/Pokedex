@@ -1,7 +1,7 @@
-import 'package:poke_app/core/entities/list_model.dart';
+import 'core_models.dart';
 
-class StatEntity {
-  StatEntity({
+class StatModel {
+  StatModel({
     required this.baseStat,
     required this.effort,
     required this.stat,
@@ -11,7 +11,7 @@ class StatEntity {
   int effort;
   ListModel stat;
 
-  factory StatEntity.fromJson(Map<String, dynamic> json) => StatEntity(
+  factory StatModel.fromJson(Map<String, dynamic> json) => StatModel(
         baseStat: json["base_stat"],
         effort: json["effort"],
         stat: ListModel.fromJson(json["stat"]),

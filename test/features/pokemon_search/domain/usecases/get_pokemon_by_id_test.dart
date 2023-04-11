@@ -3,7 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:poke_app/core/models/core_models.dart';
-import 'package:poke_app/features/pokemon_search/domain/entities/pokemon_search.dart';
+import 'package:poke_app/core/entities/pokemon.dart';
 import 'package:poke_app/features/pokemon_search/domain/repositories/pokemon_search_repository.dart';
 import 'package:poke_app/features/pokemon_search/domain/usecases/get_pokemon_by_id.dart';
 
@@ -21,7 +21,7 @@ void main() {
   final expectedSprites = SpritesModel(frontDefault: '');
   final List<TypeModel> expectedType = [];
   final List<StatModel> expectedStats = [];
-  final expected = PokemonSearch(
+  final expected = Pokemon(
       id: 1,
       name: 'dito',
       sprites: expectedSprites,

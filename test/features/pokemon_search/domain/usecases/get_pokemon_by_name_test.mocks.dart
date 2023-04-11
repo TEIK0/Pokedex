@@ -7,9 +7,8 @@ import 'dart:async' as _i4;
 
 import 'package:dartz/dartz.dart' as _i2;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:poke_app/core/entities/failure.dart' as _i5;
-import 'package:poke_app/features/pokemon_search/domain/entities/pokemon_search.dart'
-    as _i6;
+import 'package:poke_app/core/entities/pokemon.dart' as _i6;
+import 'package:poke_app/core/error/failure.dart' as _i5;
 import 'package:poke_app/features/pokemon_search/domain/repositories/pokemon_search_repository.dart'
     as _i3;
 
@@ -40,16 +39,15 @@ class _FakeEither_0<L, R> extends _i1.SmartFake implements _i2.Either<L, R> {
 class MockPokemonSearchRepository extends _i1.Mock
     implements _i3.PokemonSearchRepository {
   @override
-  _i4.Future<_i2.Either<_i5.Failure, _i6.PokemonSearch>> getPokemonByName(
+  _i4.Future<_i2.Either<_i5.Failure, _i6.Pokemon>> getPokemonByName(
           String? name) =>
       (super.noSuchMethod(
         Invocation.method(
           #getPokemonByName,
           [name],
         ),
-        returnValue:
-            _i4.Future<_i2.Either<_i5.Failure, _i6.PokemonSearch>>.value(
-                _FakeEither_0<_i5.Failure, _i6.PokemonSearch>(
+        returnValue: _i4.Future<_i2.Either<_i5.Failure, _i6.Pokemon>>.value(
+            _FakeEither_0<_i5.Failure, _i6.Pokemon>(
           this,
           Invocation.method(
             #getPokemonByName,
@@ -57,26 +55,24 @@ class MockPokemonSearchRepository extends _i1.Mock
           ),
         )),
         returnValueForMissingStub:
-            _i4.Future<_i2.Either<_i5.Failure, _i6.PokemonSearch>>.value(
-                _FakeEither_0<_i5.Failure, _i6.PokemonSearch>(
+            _i4.Future<_i2.Either<_i5.Failure, _i6.Pokemon>>.value(
+                _FakeEither_0<_i5.Failure, _i6.Pokemon>(
           this,
           Invocation.method(
             #getPokemonByName,
             [name],
           ),
         )),
-      ) as _i4.Future<_i2.Either<_i5.Failure, _i6.PokemonSearch>>);
+      ) as _i4.Future<_i2.Either<_i5.Failure, _i6.Pokemon>>);
   @override
-  _i4.Future<_i2.Either<_i5.Failure, _i6.PokemonSearch>> getPokemonById(
-          int? id) =>
+  _i4.Future<_i2.Either<_i5.Failure, _i6.Pokemon>> getPokemonById(int? id) =>
       (super.noSuchMethod(
         Invocation.method(
           #getPokemonById,
           [id],
         ),
-        returnValue:
-            _i4.Future<_i2.Either<_i5.Failure, _i6.PokemonSearch>>.value(
-                _FakeEither_0<_i5.Failure, _i6.PokemonSearch>(
+        returnValue: _i4.Future<_i2.Either<_i5.Failure, _i6.Pokemon>>.value(
+            _FakeEither_0<_i5.Failure, _i6.Pokemon>(
           this,
           Invocation.method(
             #getPokemonById,
@@ -84,13 +80,13 @@ class MockPokemonSearchRepository extends _i1.Mock
           ),
         )),
         returnValueForMissingStub:
-            _i4.Future<_i2.Either<_i5.Failure, _i6.PokemonSearch>>.value(
-                _FakeEither_0<_i5.Failure, _i6.PokemonSearch>(
+            _i4.Future<_i2.Either<_i5.Failure, _i6.Pokemon>>.value(
+                _FakeEither_0<_i5.Failure, _i6.Pokemon>(
           this,
           Invocation.method(
             #getPokemonById,
             [id],
           ),
         )),
-      ) as _i4.Future<_i2.Either<_i5.Failure, _i6.PokemonSearch>>);
+      ) as _i4.Future<_i2.Either<_i5.Failure, _i6.Pokemon>>);
 }

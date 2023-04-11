@@ -3,31 +3,22 @@
 //     final pokemonModel = pokemonModelFromJson(jsonString);
 
 import 'dart:convert';
-
-import 'package:poke_app/core/entities/list_model.dart';
-import 'package:poke_app/core/entities/sprites_model.dart';
-import 'package:poke_app/core/entities/stat_model.dart';
-import 'package:poke_app/core/entities/type_model.dart';
+import 'package:poke_app/core/entities/pokemon.dart';
+import 'package:poke_app/core/models/core_models.dart';
 
 PokemonModel pokemonModelFromJson(String str) =>
     PokemonModel.fromJson(json.decode(str));
 
 String pokemonModelToJson(PokemonModel data) => json.encode(data.toJson());
 
-class PokemonModel {
+class PokemonModel extends Pokemon {
   PokemonModel({
-    required this.id,
-    required this.name,
-    required this.sprites,
-    required this.stats,
-    required this.types,
-  });
-
-  int id;
-  String name;
-  SpritesModel sprites;
-  List<StatModel> stats;
-  List<TypeModel> types;
+    required int id,
+    required String name,
+    required SpritesModel sprites,
+    required List<StatModel> stats,
+    required List<TypeModel> types,
+  }) : super(id: id, name: name, sprites: sprites, stats: stats, types: types);
 
   factory PokemonModel.fromJson(Map<String, dynamic> json) => PokemonModel(
         id: json["id"],
