@@ -1,8 +1,26 @@
 part of 'pokemon_search_bloc.dart';
 
 abstract class PokemonSearchEvent extends Equatable {
-  const PokemonSearchEvent();
+  const PokemonSearchEvent([numberString]);
 
   @override
   List<Object> get props => [];
+}
+
+class GetPokemonForId extends PokemonSearchEvent {
+  final String input;
+
+  const GetPokemonForId(this.input);
+
+  @override
+  List<Object> get props => [input];
+}
+
+class GetPokemonForName extends PokemonSearchEvent {
+  final String input;
+
+  const GetPokemonForName(this.input);
+
+  @override
+  List<Object> get props => [input];
 }

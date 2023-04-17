@@ -12,7 +12,7 @@ PokemonModel pokemonModelFromJson(String str) =>
 String pokemonModelToJson(PokemonModel data) => json.encode(data.toJson());
 
 class PokemonModel extends Pokemon {
-  PokemonModel({
+  const PokemonModel({
     required int id,
     required String name,
     required SpritesModel sprites,

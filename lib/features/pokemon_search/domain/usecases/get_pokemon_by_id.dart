@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:equatable/equatable.dart';
 import 'package:poke_app/core/entities/pokemon.dart';
 
 import '../../../../core/error/failure.dart';

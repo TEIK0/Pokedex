@@ -20,7 +20,7 @@ class PokemonSearchRepositoryImpl implements PokemonSearchRepository {
     if (await networkInfo.isConnected) {
       try {
         final remotePokemon = await remoteDataSource.getPokemonById(number);
-        return Right(remotePokemon as Pokemon);
+        return Right(remotePokemon);
       } on ServerException {
         return Left(ServerFailure());
       }
@@ -34,7 +34,7 @@ class PokemonSearchRepositoryImpl implements PokemonSearchRepository {
     if (await networkInfo.isConnected) {
       try {
         final remotePokemon = await remoteDataSource.getPokemonByName(name);
-        return Right(remotePokemon as Pokemon);
+        return Right(remotePokemon);
       } on ServerException {
         return Left(ServerFailure());
       }

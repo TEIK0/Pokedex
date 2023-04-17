@@ -3,13 +3,13 @@ import 'package:equatable/equatable.dart';
 import '../models/core_models.dart';
 
 class Pokemon extends Equatable {
-  int id;
-  String name;
-  SpritesModel sprites;
-  List<StatModel> stats;
-  List<TypeModel> types;
+  final int id;
+  final String name;
+  final SpritesModel sprites;
+  final List<StatModel> stats;
+  final List<TypeModel> types;
 
-  Pokemon(
+  const Pokemon(
       {required this.name,
       required this.id,
       required this.sprites,
@@ -17,5 +17,5 @@ class Pokemon extends Equatable {
       required this.types});
 
   @override
-  List<Object?> get props => [name, id, sprites, stats, types];
+  List<Object?> get props => [name, id];
 }
