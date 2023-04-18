@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:poke_app/core/pages/pages.dart';
 import 'package:poke_app/features/pokemon_search/presentation/pages/search_result_page.dart';
 import 'injections.dart' as inyection;
 
