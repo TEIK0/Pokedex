@@ -29,13 +29,13 @@ class DBProvider {
   Future<Database> initDB() async {
     // Path where is going to be stored the DB
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
-    final path = join(documentsDirectory.path, "pokedex.db");
+    final path = join(documentsDirectory.path, "pokemon.db");
     print(path);
 
     // Returns database
     return await openDatabase(
       path,
-      version: 2,
+      version: 3,
       onCreate: (Database db, int version) async {
         await db.execute(''' 
             CREATE TABLE Pokemon(
@@ -48,36 +48,11 @@ class DBProvider {
   }
 
   /// Inserts a [pokemon] in the database.
-  Future<int> newRawPokemon(PokemonModel pokemon) async {
-    final db = await database;
-    final name = pokemon.name;
-    final pokeId = pokemon.id;
-    final hp = pokemon.stats[0].baseStat;
-    final attack = pokemon.stats[1].baseStat;
-    final defense = pokemon.stats[2].baseStat;
-    final specialA = pokemon.stats[3].baseStat;
-    final specialD = pokemon.stats[4].baseStat;
-    final speed = pokemon.stats[5].baseStat;
-    final spriteUrl = pokemon.sprites.frontDefault;
-    final type1 = pokemon.types[0].type.name;
-    final String type2;
-    if (pokemon.types.length > 1) {
-      type2 = pokemon.types[0].type.name;
-    } else {
-      type2 = '';
-    }
-
-    return await db.rawInsert(''' 
-      INSERT INTO Pokemon(name, pokeId, hp, attack, defense, specialA, specialD, speed, spriteURL, type1, type2)
-      VALUES ('$name', '$pokeId', '$hp', '$attack', '$defense', '$specialA', '$specialD', '$speed', '$spriteUrl', '$type1', '$type2' )
-    ''');
-  }
-
-  /// Inserts a [pokemon] in the database.
   Future<int> newPokemon(PokemonModel pokemon) async {
     final db = await database;
-    return await db.insert(
-        "Pokemon", {'id': pokemon.id, 'json': json.encode(pokemon.toJson())});
+    await initDB();
+    return await db.insert("Pokemon",
+        {'id': pokemon.id.toInt(), 'json': json.encode(pokemon.toJson())});
   }
 
   /// Returns an `PokemonModel` with [id] when found, if not `null`.
