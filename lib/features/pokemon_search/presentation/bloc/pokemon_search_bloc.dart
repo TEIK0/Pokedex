@@ -2,10 +2,13 @@ import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:poke_app/core/entities/pokemon.dart';
+import 'package:poke_app/core/models/core_models.dart';
 import 'package:poke_app/features/pokemon_search/domain/usecases/get_pokemon_by_name.dart';
 
+import '../../../../core/database/db_provider.dart';
 import '../../../../core/error/failure.dart';
 import '../../../../core/util/input_converter.dart';
+import '../../data/datasources/pokemon_search_remote_data_source.dart';
 import '../../domain/usecases/get_pokemon_by_id.dart';
 
 part 'pokemon_search_event.dart';
@@ -20,10 +23,12 @@ class PokemonSearchBloc extends Bloc<PokemonSearchEvent, PokemonSearchState> {
   final GetPokemonByName getPokemonByName;
   final GetPokemonById getPokemonById;
   final InputConverter inputConverter;
+  final PokemonSearchRemoteDataSourceImpl remoteDataSource;
   PokemonSearchBloc(
       {required this.getPokemonByName,
       required this.getPokemonById,
-      required this.inputConverter})
+      required this.inputConverter,
+      required this.remoteDataSource})
       : super(Empty()) {
     on<GetPokemonForId>((event, emit) async {
       final inputEither = inputConverter.stringToUnsignedInteger(event.input);
@@ -43,6 +48,15 @@ class PokemonSearchBloc extends Bloc<PokemonSearchEvent, PokemonSearchState> {
       emit(Loading());
       final failureOrTrivia = await getPokemonByName(event.input);
       _eitherLoadedOrErrorState(failureOrTrivia);
+    });
+    on<Reset>((event, emit) async {
+      emit(Empty());
+    });
+    on<AddFavorite>((event, emit) async {
+      emit(Loading());
+      final remotePokemon = await remoteDataSource.getPokemonById(event.input);
+      await DBProvider.db.newPokemon(remotePokemon);
+      emit(Loaded(pokemon: remotePokemon));
     });
   }
 

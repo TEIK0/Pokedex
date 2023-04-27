@@ -1,12 +1,14 @@
 import 'dart:convert';
-
+import 'package:http/http.dart' as http;
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+import 'package:poke_app/core/database/db_provider.dart';
 import 'package:poke_app/core/error/failure.dart';
 import 'package:poke_app/core/models/pokemon_model.dart';
 import 'package:poke_app/core/util/input_converter.dart';
+import 'package:poke_app/features/pokemon_search/data/datasources/pokemon_search_remote_data_source.dart';
 import 'package:poke_app/features/pokemon_search/domain/usecases/get_pokemon_by_id.dart';
 import 'package:poke_app/features/pokemon_search/domain/usecases/get_pokemon_by_name.dart';
 import 'package:poke_app/features/pokemon_search/presentation/bloc/pokemon_search_bloc.dart';
@@ -14,7 +16,10 @@ import '../../../../fixtures/fixture_reader.dart';
 @GenerateNiceMocks([
   MockSpec<GetPokemonById>(),
   MockSpec<GetPokemonByName>(),
-  MockSpec<InputConverter>()
+  MockSpec<InputConverter>(),
+  MockSpec<PokemonSearchRemoteDataSourceImpl>(),
+  MockSpec<DBProvider>(),
+  MockSpec<http.Client>()
 ])
 import 'pokemon_search_bloc_test.mocks.dart';
 
@@ -23,15 +28,25 @@ void main() {
   late MockGetPokemonById mockGetPokemonById;
   late MockGetPokemonByName mockGetPokemonByName;
   late MockInputConverter mockInputConverter;
+  late MockDBProvider mockDBProvider;
+  late MockPokemonSearchRemoteDataSourceImpl
+      mockPokemonSearchRemoteDataSourceImpl;
+  late MockPokemonSearchRemoteDataSourceImpl dataSource;
+  late MockClient mockHttpClient;
 
   setUp(() {
     mockGetPokemonById = MockGetPokemonById();
     mockGetPokemonByName = MockGetPokemonByName();
     mockInputConverter = MockInputConverter();
+    mockDBProvider = MockDBProvider();
+    mockHttpClient = MockClient();
+    mockPokemonSearchRemoteDataSourceImpl =
+        MockPokemonSearchRemoteDataSourceImpl();
     bloc = PokemonSearchBloc(
         getPokemonById: mockGetPokemonById,
         getPokemonByName: mockGetPokemonByName,
-        inputConverter: mockInputConverter);
+        inputConverter: mockInputConverter,
+        remoteDataSource: mockPokemonSearchRemoteDataSourceImpl);
   });
 
   test('initial State should be Empty', () {
@@ -143,6 +158,42 @@ void main() {
       final expected = [Loading(), const Error(message: CACHE_FAILURE_MESSAGE)];
       expectLater(bloc.stream, emitsInOrder(expected));
       bloc.add(const GetPokemonForName(input));
+    });
+  });
+
+  group('Add Pokemon To Favorite', () {
+    const tNumberString = '132';
+    const tNumberParsed = 132;
+    final pokemonModel =
+        PokemonModel.fromJson(json.decode(fixture('pokemon_search.json')));
+    void setUpInputConverterTest() =>
+        when(mockInputConverter.stringToUnsignedInteger(any))
+            .thenReturn(const Right(tNumberParsed));
+
+    test(
+        'should call the inputConverter to validate and convert the String to an unsigned integer',
+        () async {
+      setUpInputConverterTest();
+      when(mockGetPokemonById(any))
+          .thenAnswer((_) async => Right(pokemonModel));
+      bloc.add(const GetPokemonForId(tNumberString));
+      await untilCalled(mockInputConverter.stringToUnsignedInteger(any));
+      verify(mockInputConverter.stringToUnsignedInteger(tNumberString));
+    });
+
+    test('should get data from the concrete use case', () async {
+      setUpInputConverterTest();
+      when(mockGetPokemonById(any))
+          .thenAnswer((_) async => Right(pokemonModel));
+      bloc.add(const GetPokemonForId(tNumberString));
+      await untilCalled(mockGetPokemonById(any));
+      verify(mockGetPokemonById(tNumberParsed));
+    });
+    test('should add to favorites', () async {
+      final pokemonModel =
+          PokemonModel.fromJson(json.decode(fixture('pokemon_search.json')));
+      await mockDBProvider.newPokemon(pokemonModel);
+      verify(mockDBProvider.newPokemon(pokemonModel));
     });
   });
 }

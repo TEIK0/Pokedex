@@ -16,12 +16,3 @@ class GetPokemonByName implements UseCase<Pokemon, String> {
     return await repository.getPokemonByName(name);
   }
 }
-
-class Params extends Equatable {
-  final String name;
-
-  const Params({required this.name});
-
-  @override
-  List<Object?> get props => [name];
-}
