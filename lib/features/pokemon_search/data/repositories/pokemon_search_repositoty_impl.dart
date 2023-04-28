@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:poke_app/core/entities/pokemon.dart';
+import 'package:poke_app/core/models/core_models.dart';
 import 'package:poke_app/features/pokemon_search/data/datasources/pokemon_search_remote_data_source.dart';
 import 'package:poke_app/features/pokemon_search/domain/repositories/pokemon_search_repository.dart';
 
@@ -15,31 +16,21 @@ class PokemonSearchRepositoryImpl implements PokemonSearchRepository {
   PokemonSearchRepositoryImpl(
       {required this.remoteDataSource, required this.networkInfo});
 
-  @override
-  Future<Either<Failure, Pokemon>> getPokemonById(int number) async {
-    if (await networkInfo.isConnected) {
-      try {
-        final remotePokemon = await remoteDataSource.getPokemonById(number);
-        return Right(remotePokemon);
-      } on ServerException {
-        return Left(ServerFailure());
-      }
-    } else {
-      return Left(ServerFailure());
-    }
+  Failure fails() {
+    return ServerFailure();
+  }
+
+  PokemonModel pass(PokemonModel pokemon) {
+    return pokemon;
   }
 
   @override
-  Future<Either<Failure, Pokemon>> getPokemonByName(String name) async {
+  Future<Either<Failure, Pokemon>> getPokemon(String name) async {
     if (await networkInfo.isConnected) {
-      try {
-        final remotePokemon = await remoteDataSource.getPokemonByName(name);
-        return Right(remotePokemon);
-      } on ServerException {
-        return Left(ServerFailure());
-      }
-    } else {
-      return Left(ServerFailure());
+      final remotePokemon = await remoteDataSource.getPokemon(name);
+      return remotePokemon.fold(
+          (failure) => Left(failure), (pokemon) => Right(pokemon));
     }
+    return Left(ServerFailure());
   }
 }

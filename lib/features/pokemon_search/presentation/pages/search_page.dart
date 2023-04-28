@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poke_app/features/pokemon_search/presentation/bloc/pokemon_search_bloc.dart';
 import 'package:poke_app/injections.dart';
 import '../../../../core/widgets/widgets.dart';
-import 'package:poke_app/core/entities/pokemon.dart';
 
 import '../../../../core/widgets/pokemon_result_display.dart';
 
@@ -66,7 +65,7 @@ class _SearchPageState extends State<SearchPage> {
     return Center(
       child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
         const Text(
-          'Buscar pokemon por',
+          'Buscar pokemon',
           style: TextStyle(
               color: Colors.black, fontSize: 30, fontWeight: FontWeight.bold),
         ),
@@ -74,48 +73,21 @@ class _SearchPageState extends State<SearchPage> {
           height: 20,
         ),
         Container(
-          color: Colors.red,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              border: Border.all(width: 2)),
           width: 300,
           child: TextField(
+            decoration: const InputDecoration(border: InputBorder.none),
             onChanged: (value) {
               input = value;
             },
             onSubmitted: (_) {
-              dispatchNamedPokemon(context, input);
+              dispatchPokemon(context, input);
             },
             cursorColor: Colors.black,
             textAlign: TextAlign.center,
-            decoration: const InputDecoration(
-              labelStyle: TextStyle(color: Colors.black),
-              labelText: '  Nombre',
-            ),
-            style: const TextStyle(
-                backgroundColor: Colors.red, color: Colors.black, fontSize: 30),
-          ),
-        ),
-        Container(
-          padding: const EdgeInsets.symmetric(vertical: 15),
-          height: 60,
-        ),
-        Container(
-          color: Colors.red,
-          width: 300,
-          child: TextField(
-            onChanged: (value) {
-              input = value;
-            },
-            onSubmitted: (_) {
-              dispatchNamedPokemon(context, input);
-            },
-            keyboardType: TextInputType.number,
-            cursorColor: Colors.black,
-            textAlign: TextAlign.center,
-            decoration: const InputDecoration(
-              labelStyle: TextStyle(color: Colors.black),
-              labelText: '  Numero',
-            ),
-            style: const TextStyle(
-                backgroundColor: Colors.red, color: Colors.black, fontSize: 30),
+            style: const TextStyle(color: Colors.black, fontSize: 30),
           ),
         ),
       ]),
@@ -150,4 +122,8 @@ class _SearchPageState extends State<SearchPage> {
       ],
     );
   }
+}
+
+void dispatchPokemon(BuildContext context, String input) {
+  BlocProvider.of<PokemonSearchBloc>(context).add(GetSearchedPokemon(input));
 }

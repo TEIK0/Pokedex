@@ -4,6 +4,7 @@ import 'package:poke_app/features/favorite_pokemon/domain/repositories/favorite_
 
 import '../../../../core/entities/pokemon.dart';
 import '../../../../core/error/failure.dart';
+import '../../../../core/models/core_models.dart';
 
 class FavoritePokemonRepositoryImpl implements FavoritePokemonRepository {
   final DBProvider db;
@@ -31,10 +32,10 @@ class FavoritePokemonRepositoryImpl implements FavoritePokemonRepository {
   }
 
   @override
-  Future<Either<Failure, List<Pokemon>>> showFavoritePokemonList() async {
+  Future<Either<Failure, List<PokemonModel>>> showFavoritePokemonList() async {
     try {
       final result = await db.showFavoritePokemonList();
-      return Right(result);
+      return Right(result!);
     } on Failure {
       return Left(CacheFailure());
     }

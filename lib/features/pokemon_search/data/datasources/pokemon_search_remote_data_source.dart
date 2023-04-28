@@ -1,13 +1,14 @@
 import 'dart:convert';
 
+import 'package:dartz/dartz.dart';
 import 'package:http/http.dart' as http;
+import 'package:poke_app/core/error/failure.dart';
 import 'package:poke_app/core/models/core_models.dart';
 
 import '../../../../core/error/exceptions.dart';
 
 abstract class PokemonSearchRemoteDataSource {
-  Future<PokemonModel> getPokemonById(int number);
-  Future<PokemonModel> getPokemonByName(String name);
+  Future<Either<Failure, PokemonModel>> getPokemon(String name);
 }
 
 class PokemonSearchRemoteDataSourceImpl
@@ -16,20 +17,16 @@ class PokemonSearchRemoteDataSourceImpl
 
   PokemonSearchRemoteDataSourceImpl({required this.client});
   @override
-  Future<PokemonModel> getPokemonById(int number) =>
-      _getPokemonFromUrl('https://pokeapi.co/api/v2/pokemon/$number');
+  Future<Either<Failure, PokemonModel>> getPokemon(String pokemon) =>
+      _getPokemonFromUrl('https://pokeapi.co/api/v2/pokemon/$pokemon');
 
-  @override
-  Future<PokemonModel> getPokemonByName(String name) =>
-      _getPokemonFromUrl('https://pokeapi.co/api/v2/pokemon/$name');
-
-  Future<PokemonModel> _getPokemonFromUrl(String url) async {
+  Future<Either<Failure, PokemonModel>> _getPokemonFromUrl(String url) async {
     final response = await client
         .get(Uri.parse(url), headers: {'Content-Type': 'application/json'});
     if (response.statusCode == 200) {
-      return PokemonModel.fromJson(json.decode(response.body));
+      return Right(PokemonModel.fromJson(json.decode(response.body)));
     } else {
-      throw ServerException();
+      return Left(ServerFailure());
     }
   }
 }

@@ -32,11 +32,11 @@ void main() {
   }
 
   group('get Pokemon By Id', () {
-    const input = 132;
+    const input = "132";
     test('should Get a request on a URL whit number being the endpoint',
         () async {
       setUpMockHttpClientSuccess200();
-      dataSource.getPokemonById(input);
+      dataSource.getPokemon(input);
       verify(mockHttpClient.get(
           Uri.parse('https://pokeapi.co/api/v2/pokemon/$input'),
           headers: {'Content-Type': 'application/json'}));
@@ -47,14 +47,14 @@ void main() {
       final pokemonModel =
           PokemonModel.fromJson(json.decode(fixture('pokemon_search.json')));
       setUpMockHttpClientSuccess200();
-      final result = await dataSource.getPokemonById(input);
+      final result = await dataSource.getPokemon(input);
       expect(result, equals(pokemonModel));
     });
 
     test('should throw a ServerExeption when the response code is 404 or other',
         () async {
       setUpMockHttpClientFail404();
-      final call = dataSource.getPokemonById;
+      final call = dataSource.getPokemon;
       expect(() => call(input), throwsA(isA<ServerException>()));
     });
   });
@@ -65,7 +65,7 @@ void main() {
         'should Get a request on a URL whit string being the endpoint in random number',
         () async {
       setUpMockHttpClientSuccess200();
-      dataSource.getPokemonByName(name);
+      dataSource.getPokemon(name);
       verify(mockHttpClient.get(
           Uri.parse('https://pokeapi.co/api/v2/pokemon/$name'),
           headers: {'Content-Type': 'application/json'}));
@@ -76,7 +76,7 @@ void main() {
       final pokemonModel =
           PokemonModel.fromJson(json.decode(fixture('pokemon_search.json')));
       setUpMockHttpClientSuccess200();
-      final result = await dataSource.getPokemonByName(name);
+      final result = await dataSource.getPokemon(name);
       expect(result, equals(pokemonModel));
     });
 
@@ -84,7 +84,7 @@ void main() {
         'should throw a ServerExeption trying a random number when the response code is 404 or other',
         () async {
       setUpMockHttpClientFail404();
-      final call = dataSource.getPokemonByName;
+      final call = dataSource.getPokemon;
       expect(() => call(name), throwsA(isA<ServerException>()));
     });
   });

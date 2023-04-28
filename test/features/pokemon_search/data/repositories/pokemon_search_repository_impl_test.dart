@@ -5,7 +5,6 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:poke_app/core/entities/pokemon.dart';
-import 'package:poke_app/core/error/exceptions.dart';
 import 'package:poke_app/core/models/pokemon_model.dart';
 import 'package:poke_app/core/network/network_info.dart';
 import 'package:poke_app/features/pokemon_search/data/datasources/pokemon_search_remote_data_source.dart';
@@ -40,35 +39,35 @@ void main() {
   }
 
   group('get Pokemon by id', () {
-    const input = 132;
+    const input = "132";
     final pokemonModel =
         PokemonModel.fromJson(json.decode(fixture('pokemon_search.json')));
     final Pokemon tryPokemon = pokemonModel;
     test('should check if the device is online', () async {
       when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
 
-      repository.getPokemonById(input);
+      repository.getPokemon(input);
 
       verify(mockNetworkInfo.isConnected);
     });
 
     runTestOnline(() {
       test('Should return remote data when the call is successfull', () async {
-        when(mockRemoteDataSource.getPokemonById(any))
-            .thenAnswer((_) async => pokemonModel);
-        final result = await repository.getPokemonById(input);
+        when(mockRemoteDataSource.getPokemon(any))
+            .thenAnswer((_) async => Right(pokemonModel));
+        final result = await repository.getPokemon(input);
 
-        verify(mockRemoteDataSource.getPokemonById(input));
+        verify(mockRemoteDataSource.getPokemon(input));
         expect(result, equals(Right(tryPokemon)));
       });
 
       test('Should catch the data locally when the call is successfull',
           () async {
-        when(mockRemoteDataSource.getPokemonById(any))
-            .thenAnswer((_) async => pokemonModel);
-        await repository.getPokemonById(input);
+        when(mockRemoteDataSource.getPokemon(any))
+            .thenAnswer((_) async => Right(pokemonModel));
+        await repository.getPokemon(input);
 
-        verify(mockRemoteDataSource.getPokemonById(input));
+        verify(mockRemoteDataSource.getPokemon(input));
       });
     });
   });
@@ -80,18 +79,18 @@ void main() {
     test('should check if the device is online', () async {
       when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
 
-      repository.getPokemonByName(input);
+      repository.getPokemon(input);
 
       verify(mockNetworkInfo.isConnected);
     });
 
     runTestOnline(() {
       test('Should return remote data when the call is successfull', () async {
-        when(mockRemoteDataSource.getPokemonByName(input))
-            .thenAnswer((_) async => pokemonModel);
-        final result = await repository.getPokemonByName(input);
+        when(mockRemoteDataSource.getPokemon(input))
+            .thenAnswer((_) async => Right(pokemonModel));
+        final result = await repository.getPokemon(input);
 
-        verify(mockRemoteDataSource.getPokemonByName(input));
+        verify(mockRemoteDataSource.getPokemon(input));
         expect(result, equals(Right(tryPokemon)));
       });
     });

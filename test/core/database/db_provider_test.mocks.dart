@@ -63,15 +63,6 @@ class MockDBProvider extends _i1.Mock implements _i3.DBProvider {
         )),
       ) as _i4.Future<_i2.Database>);
   @override
-  _i4.Future<int> newRawPokemon(_i5.PokemonModel? pokemon) =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #newRawPokemon,
-          [pokemon],
-        ),
-        returnValue: _i4.Future<int>.value(0),
-      ) as _i4.Future<int>);
-  @override
   _i4.Future<int> newPokemon(_i5.PokemonModel? pokemon) => (super.noSuchMethod(
         Invocation.method(
           #newPokemon,
@@ -80,9 +71,10 @@ class MockDBProvider extends _i1.Mock implements _i3.DBProvider {
         returnValue: _i4.Future<int>.value(0),
       ) as _i4.Future<int>);
   @override
-  _i4.Future<_i5.PokemonModel?> getPokemonById(int? id) => (super.noSuchMethod(
+  _i4.Future<_i5.PokemonModel?> getPokemonByRowId(int? id) =>
+      (super.noSuchMethod(
         Invocation.method(
-          #getPokemonById,
+          #getPokemonByRowId,
           [id],
         ),
         returnValue: _i4.Future<_i5.PokemonModel?>.value(),
@@ -96,16 +88,6 @@ class MockDBProvider extends _i1.Mock implements _i3.DBProvider {
         ),
         returnValue: _i4.Future<_i6.Pokemon?>.value(),
       ) as _i4.Future<_i6.Pokemon?>);
-  @override
-  _i4.Future<List<_i5.PokemonModel>> showFavoritePokemonList() =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #showFavoritePokemonList,
-          [],
-        ),
-        returnValue:
-            _i4.Future<List<_i5.PokemonModel>>.value(<_i5.PokemonModel>[]),
-      ) as _i4.Future<List<_i5.PokemonModel>>);
   @override
   _i4.Future<int> deletePokemon(int? id) => (super.noSuchMethod(
         Invocation.method(

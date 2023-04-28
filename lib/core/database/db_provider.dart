@@ -30,12 +30,11 @@ class DBProvider {
     // Path where is going to be stored the DB
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
     final path = join(documentsDirectory.path, "pokemon.db");
-    print(path);
 
     // Returns database
     return await openDatabase(
       path,
-      version: 3,
+      version: 6,
       onCreate: (Database db, int version) async {
         await db.execute(''' 
             CREATE TABLE Pokemon(
@@ -56,34 +55,25 @@ class DBProvider {
   }
 
   /// Returns an `PokemonModel` with [id] when found, if not `null`.
-  Future<PokemonModel?> getPokemonById(int id) async {
-    final db = await database;
-    final response =
-        await db.query("Pokemon", where: "id = ?", whereArgs: [id]);
-
-    return response.isNotEmpty ? PokemonModel.fromJson(response.first) : null;
-  }
-
   Future<Pokemon?> getPokemonByPokemonId(int id) async {
     final db = await database;
+
     final response =
         await db.query("Pokemon", where: "id = ?", whereArgs: [id]);
-
-    return response.isNotEmpty ? PokemonModel.fromJson(response.first) : null;
+    return response.isNotEmpty ? _getPokemon(response.first) : null;
   }
 
   /// Returns an `PokemonModel` list.
-  Future<List<PokemonModel>> showFavoritePokemonList() async {
+  Future<List<PokemonModel>>? showFavoritePokemonList() async {
     final db = await database;
     final response = await db.query("Pokemon");
-
     return response.map((response) => _getPokemon(response)).toList();
   }
 
   PokemonModel _getPokemon(Map<String, Object?> response) {
     return PokemonModel.fromJson(
       json.decode(
-        Map.from(response)['data'],
+        Map.from(response)['json'],
       ),
     );
   }

@@ -7,19 +7,10 @@ abstract class PokemonSearchEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class GetPokemonForId extends PokemonSearchEvent {
+class GetSearchedPokemon extends PokemonSearchEvent {
   final String input;
 
-  const GetPokemonForId(this.input);
-
-  @override
-  List<Object> get props => [input];
-}
-
-class GetPokemonForName extends PokemonSearchEvent {
-  final String input;
-
-  const GetPokemonForName(this.input);
+  const GetSearchedPokemon(this.input);
 
   @override
   List<Object> get props => [input];
@@ -33,7 +24,7 @@ class Reset extends PokemonSearchEvent {
 }
 
 class AddFavorite extends PokemonSearchEvent {
-  final int input;
+  final String input;
 
   const AddFavorite(this.input);
 

@@ -6,13 +6,13 @@ import '../../../../core/error/failure.dart';
 import '../../../../core/usecases/usecases.dart';
 import '../repositories/pokemon_search_repository.dart';
 
-class GetPokemonById implements UseCase<Pokemon, int> {
+class GetPokemon implements UseCase<Pokemon, String> {
   final PokemonSearchRepository repository;
 
-  GetPokemonById(this.repository);
+  GetPokemon(this.repository);
 
   @override
-  Future<Either<Failure, Pokemon>> call(int id) async {
-    return await repository.getPokemonById(id);
+  Future<Either<Failure, Pokemon>> call(String name) async {
+    return await repository.getPokemon(name);
   }
 }

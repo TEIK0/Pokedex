@@ -27,7 +27,8 @@ Future main() async {
     taskService = MockDBProvider();
     when(taskService.newPokemon(any)).thenAnswer((_) async => 1);
     when(taskService.deletePokemon(any)).thenAnswer((_) async => 1);
-    when(taskService.getPokemonById(any)).thenAnswer((_) async => pokemonModel);
+    when(taskService.getPokemonByPokemonId(any))
+        .thenAnswer((_) async => pokemonModel);
     when(taskService.showFavoritePokemonList())
         .thenAnswer((_) async => taskList);
   });

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:poke_app/core/widgets/widgets.dart';
 
 class MessageDisplay extends StatelessWidget {
   final String message;
@@ -7,15 +8,19 @@ class MessageDisplay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: MediaQuery.of(context).size.height / 3,
-      child: Center(
-        child: SingleChildScrollView(
-          child: Text(
-            message,
-            style: TextStyle(fontSize: 30),
-            textAlign: TextAlign.center,
-          ),
+    return Center(
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            const SizedBox(height: 5),
+            const ResetButtonWidget(instance: true),
+            const SizedBox(height: 20),
+            Text(
+              message,
+              style: const TextStyle(fontSize: 30),
+              textAlign: TextAlign.center,
+            ),
+          ],
         ),
       ),
     );

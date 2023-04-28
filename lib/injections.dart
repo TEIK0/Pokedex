@@ -8,8 +8,7 @@ import 'package:poke_app/features/favorite_pokemon/domain/usecases/show_favorite
 import 'package:poke_app/features/favorite_pokemon/presentation/bloc/favorites_bloc.dart';
 import 'package:poke_app/features/pokemon_search/data/datasources/pokemon_search_remote_data_source.dart';
 import 'package:poke_app/features/pokemon_search/data/repositories/pokemon_search_repositoty_impl.dart';
-import 'package:poke_app/features/pokemon_search/domain/usecases/get_pokemon_by_id.dart';
-import 'package:poke_app/features/pokemon_search/domain/usecases/get_pokemon_by_name.dart';
+import 'package:poke_app/features/pokemon_search/domain/usecases/get_pokemon.dart';
 import 'package:poke_app/features/pokemon_search/presentation/bloc/pokemon_search_bloc.dart';
 
 import 'core/database/db_provider.dart';
@@ -26,15 +25,11 @@ Future<void> init() async {
 
   //Register Search Bloc and Favorites Bloc
   sl.registerFactory(() => PokemonSearchBloc(
-      getPokemonById: sl(),
-      getPokemonByName: sl(),
-      inputConverter: sl(),
-      remoteDataSource: sl()));
+      getPokemon: sl(), inputConverter: sl(), remoteDataSource: sl()));
   sl.registerFactory(() => FavoritesBloc(repository: sl()));
 
   //Register Search Feature complements
-  sl.registerLazySingleton(() => GetPokemonById(sl()));
-  sl.registerLazySingleton(() => GetPokemonByName(sl()));
+  sl.registerLazySingleton(() => GetPokemon(sl()));
   sl.registerLazySingleton<PokemonSearchRepository>(() =>
       PokemonSearchRepositoryImpl(remoteDataSource: sl(), networkInfo: sl()));
   sl.registerLazySingleton(() => InputConverter());

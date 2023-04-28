@@ -5,9 +5,11 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'dart:async' as _i4;
 
+import 'package:dartz/dartz.dart' as _i2;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:poke_app/core/models/core_models.dart' as _i2;
-import 'package:poke_app/core/network/network_info.dart' as _i5;
+import 'package:poke_app/core/error/failure.dart' as _i5;
+import 'package:poke_app/core/models/core_models.dart' as _i6;
+import 'package:poke_app/core/network/network_info.dart' as _i7;
 import 'package:poke_app/features/pokemon_search/data/datasources/pokemon_search_remote_data_source.dart'
     as _i3;
 
@@ -22,8 +24,8 @@ import 'package:poke_app/features/pokemon_search/data/datasources/pokemon_search
 // ignore_for_file: camel_case_types
 // ignore_for_file: subtype_of_sealed_class
 
-class _FakePokemonModel_0 extends _i1.SmartFake implements _i2.PokemonModel {
-  _FakePokemonModel_0(
+class _FakeEither_0<L, R> extends _i1.SmartFake implements _i2.Either<L, R> {
+  _FakeEither_0(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -38,57 +40,38 @@ class _FakePokemonModel_0 extends _i1.SmartFake implements _i2.PokemonModel {
 class MockPokemonSearchRemoteDataSource extends _i1.Mock
     implements _i3.PokemonSearchRemoteDataSource {
   @override
-  _i4.Future<_i2.PokemonModel> getPokemonById(int? number) =>
+  _i4.Future<_i2.Either<_i5.Failure, _i6.PokemonModel>> getPokemon(
+          String? name) =>
       (super.noSuchMethod(
         Invocation.method(
-          #getPokemonById,
-          [number],
-        ),
-        returnValue: _i4.Future<_i2.PokemonModel>.value(_FakePokemonModel_0(
-          this,
-          Invocation.method(
-            #getPokemonById,
-            [number],
-          ),
-        )),
-        returnValueForMissingStub:
-            _i4.Future<_i2.PokemonModel>.value(_FakePokemonModel_0(
-          this,
-          Invocation.method(
-            #getPokemonById,
-            [number],
-          ),
-        )),
-      ) as _i4.Future<_i2.PokemonModel>);
-  @override
-  _i4.Future<_i2.PokemonModel> getPokemonByName(String? name) =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #getPokemonByName,
+          #getPokemon,
           [name],
         ),
-        returnValue: _i4.Future<_i2.PokemonModel>.value(_FakePokemonModel_0(
+        returnValue:
+            _i4.Future<_i2.Either<_i5.Failure, _i6.PokemonModel>>.value(
+                _FakeEither_0<_i5.Failure, _i6.PokemonModel>(
           this,
           Invocation.method(
-            #getPokemonByName,
+            #getPokemon,
             [name],
           ),
         )),
         returnValueForMissingStub:
-            _i4.Future<_i2.PokemonModel>.value(_FakePokemonModel_0(
+            _i4.Future<_i2.Either<_i5.Failure, _i6.PokemonModel>>.value(
+                _FakeEither_0<_i5.Failure, _i6.PokemonModel>(
           this,
           Invocation.method(
-            #getPokemonByName,
+            #getPokemon,
             [name],
           ),
         )),
-      ) as _i4.Future<_i2.PokemonModel>);
+      ) as _i4.Future<_i2.Either<_i5.Failure, _i6.PokemonModel>>);
 }
 
 /// A class which mocks [NetworkInfo].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockNetworkInfo extends _i1.Mock implements _i5.NetworkInfo {
+class MockNetworkInfo extends _i1.Mock implements _i7.NetworkInfo {
   @override
   _i4.Future<bool> get isConnected => (super.noSuchMethod(
         Invocation.getter(#isConnected),

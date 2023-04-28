@@ -3,27 +3,25 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i8;
-import 'dart:convert' as _i15;
-import 'dart:typed_data' as _i16;
+import 'dart:async' as _i7;
+import 'dart:convert' as _i14;
+import 'dart:typed_data' as _i15;
 
 import 'package:dartz/dartz.dart' as _i3;
 import 'package:http/http.dart' as _i4;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:poke_app/core/database/db_provider.dart' as _i14;
-import 'package:poke_app/core/entities/pokemon.dart' as _i10;
-import 'package:poke_app/core/error/failure.dart' as _i9;
-import 'package:poke_app/core/models/core_models.dart' as _i5;
-import 'package:poke_app/core/util/input_converter.dart' as _i12;
+import 'package:poke_app/core/database/db_provider.dart' as _i13;
+import 'package:poke_app/core/entities/pokemon.dart' as _i9;
+import 'package:poke_app/core/error/failure.dart' as _i8;
+import 'package:poke_app/core/models/core_models.dart' as _i12;
+import 'package:poke_app/core/util/input_converter.dart' as _i10;
 import 'package:poke_app/features/pokemon_search/data/datasources/pokemon_search_remote_data_source.dart'
-    as _i13;
+    as _i11;
 import 'package:poke_app/features/pokemon_search/domain/repositories/pokemon_search_repository.dart'
     as _i2;
-import 'package:poke_app/features/pokemon_search/domain/usecases/get_pokemon_by_id.dart'
-    as _i7;
-import 'package:poke_app/features/pokemon_search/domain/usecases/get_pokemon_by_name.dart'
-    as _i11;
-import 'package:sqflite/sqflite.dart' as _i6;
+import 'package:poke_app/features/pokemon_search/domain/usecases/get_pokemon.dart'
+    as _i6;
+import 'package:sqflite/sqflite.dart' as _i5;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -67,8 +65,8 @@ class _FakeClient_2 extends _i1.SmartFake implements _i4.Client {
         );
 }
 
-class _FakePokemonModel_3 extends _i1.SmartFake implements _i5.PokemonModel {
-  _FakePokemonModel_3(
+class _FakeDatabase_3 extends _i1.SmartFake implements _i5.Database {
+  _FakeDatabase_3(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -77,8 +75,8 @@ class _FakePokemonModel_3 extends _i1.SmartFake implements _i5.PokemonModel {
         );
 }
 
-class _FakeDatabase_4 extends _i1.SmartFake implements _i6.Database {
-  _FakeDatabase_4(
+class _FakeResponse_4 extends _i1.SmartFake implements _i4.Response {
+  _FakeResponse_4(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -87,19 +85,9 @@ class _FakeDatabase_4 extends _i1.SmartFake implements _i6.Database {
         );
 }
 
-class _FakeResponse_5 extends _i1.SmartFake implements _i4.Response {
-  _FakeResponse_5(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
-}
-
-class _FakeStreamedResponse_6 extends _i1.SmartFake
+class _FakeStreamedResponse_5 extends _i1.SmartFake
     implements _i4.StreamedResponse {
-  _FakeStreamedResponse_6(
+  _FakeStreamedResponse_5(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -108,10 +96,10 @@ class _FakeStreamedResponse_6 extends _i1.SmartFake
         );
 }
 
-/// A class which mocks [GetPokemonById].
+/// A class which mocks [GetPokemon].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockGetPokemonById extends _i1.Mock implements _i7.GetPokemonById {
+class MockGetPokemon extends _i1.Mock implements _i6.GetPokemon {
   @override
   _i2.PokemonSearchRepository get repository => (super.noSuchMethod(
         Invocation.getter(#repository),
@@ -125,57 +113,14 @@ class MockGetPokemonById extends _i1.Mock implements _i7.GetPokemonById {
         ),
       ) as _i2.PokemonSearchRepository);
   @override
-  _i8.Future<_i3.Either<_i9.Failure, _i10.Pokemon>> call(int? id) =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #call,
-          [id],
-        ),
-        returnValue: _i8.Future<_i3.Either<_i9.Failure, _i10.Pokemon>>.value(
-            _FakeEither_1<_i9.Failure, _i10.Pokemon>(
-          this,
-          Invocation.method(
-            #call,
-            [id],
-          ),
-        )),
-        returnValueForMissingStub:
-            _i8.Future<_i3.Either<_i9.Failure, _i10.Pokemon>>.value(
-                _FakeEither_1<_i9.Failure, _i10.Pokemon>(
-          this,
-          Invocation.method(
-            #call,
-            [id],
-          ),
-        )),
-      ) as _i8.Future<_i3.Either<_i9.Failure, _i10.Pokemon>>);
-}
-
-/// A class which mocks [GetPokemonByName].
-///
-/// See the documentation for Mockito's code generation for more information.
-class MockGetPokemonByName extends _i1.Mock implements _i11.GetPokemonByName {
-  @override
-  _i2.PokemonSearchRepository get repository => (super.noSuchMethod(
-        Invocation.getter(#repository),
-        returnValue: _FakePokemonSearchRepository_0(
-          this,
-          Invocation.getter(#repository),
-        ),
-        returnValueForMissingStub: _FakePokemonSearchRepository_0(
-          this,
-          Invocation.getter(#repository),
-        ),
-      ) as _i2.PokemonSearchRepository);
-  @override
-  _i8.Future<_i3.Either<_i9.Failure, _i10.Pokemon>> call(String? name) =>
+  _i7.Future<_i3.Either<_i8.Failure, _i9.Pokemon>> call(String? name) =>
       (super.noSuchMethod(
         Invocation.method(
           #call,
           [name],
         ),
-        returnValue: _i8.Future<_i3.Either<_i9.Failure, _i10.Pokemon>>.value(
-            _FakeEither_1<_i9.Failure, _i10.Pokemon>(
+        returnValue: _i7.Future<_i3.Either<_i8.Failure, _i9.Pokemon>>.value(
+            _FakeEither_1<_i8.Failure, _i9.Pokemon>(
           this,
           Invocation.method(
             #call,
@@ -183,50 +128,50 @@ class MockGetPokemonByName extends _i1.Mock implements _i11.GetPokemonByName {
           ),
         )),
         returnValueForMissingStub:
-            _i8.Future<_i3.Either<_i9.Failure, _i10.Pokemon>>.value(
-                _FakeEither_1<_i9.Failure, _i10.Pokemon>(
+            _i7.Future<_i3.Either<_i8.Failure, _i9.Pokemon>>.value(
+                _FakeEither_1<_i8.Failure, _i9.Pokemon>(
           this,
           Invocation.method(
             #call,
             [name],
           ),
         )),
-      ) as _i8.Future<_i3.Either<_i9.Failure, _i10.Pokemon>>);
+      ) as _i7.Future<_i3.Either<_i8.Failure, _i9.Pokemon>>);
 }
 
 /// A class which mocks [InputConverter].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockInputConverter extends _i1.Mock implements _i12.InputConverter {
+class MockInputConverter extends _i1.Mock implements _i10.InputConverter {
   @override
-  _i3.Either<_i9.Failure, int> stringToUnsignedInteger(String? str) =>
+  _i3.Either<_i8.Failure, int> stringToUnsignedInteger(String? str) =>
       (super.noSuchMethod(
         Invocation.method(
           #stringToUnsignedInteger,
           [str],
         ),
-        returnValue: _FakeEither_1<_i9.Failure, int>(
+        returnValue: _FakeEither_1<_i8.Failure, int>(
           this,
           Invocation.method(
             #stringToUnsignedInteger,
             [str],
           ),
         ),
-        returnValueForMissingStub: _FakeEither_1<_i9.Failure, int>(
+        returnValueForMissingStub: _FakeEither_1<_i8.Failure, int>(
           this,
           Invocation.method(
             #stringToUnsignedInteger,
             [str],
           ),
         ),
-      ) as _i3.Either<_i9.Failure, int>);
+      ) as _i3.Either<_i8.Failure, int>);
 }
 
 /// A class which mocks [PokemonSearchRemoteDataSourceImpl].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockPokemonSearchRemoteDataSourceImpl extends _i1.Mock
-    implements _i13.PokemonSearchRemoteDataSourceImpl {
+    implements _i11.PokemonSearchRemoteDataSourceImpl {
   @override
   _i4.Client get client => (super.noSuchMethod(
         Invocation.getter(#client),
@@ -240,77 +185,58 @@ class MockPokemonSearchRemoteDataSourceImpl extends _i1.Mock
         ),
       ) as _i4.Client);
   @override
-  _i8.Future<_i5.PokemonModel> getPokemonById(int? number) =>
+  _i7.Future<_i3.Either<_i8.Failure, _i12.PokemonModel>> getPokemon(
+          String? pokemon) =>
       (super.noSuchMethod(
         Invocation.method(
-          #getPokemonById,
-          [number],
+          #getPokemon,
+          [pokemon],
         ),
-        returnValue: _i8.Future<_i5.PokemonModel>.value(_FakePokemonModel_3(
+        returnValue:
+            _i7.Future<_i3.Either<_i8.Failure, _i12.PokemonModel>>.value(
+                _FakeEither_1<_i8.Failure, _i12.PokemonModel>(
           this,
           Invocation.method(
-            #getPokemonById,
-            [number],
+            #getPokemon,
+            [pokemon],
           ),
         )),
         returnValueForMissingStub:
-            _i8.Future<_i5.PokemonModel>.value(_FakePokemonModel_3(
+            _i7.Future<_i3.Either<_i8.Failure, _i12.PokemonModel>>.value(
+                _FakeEither_1<_i8.Failure, _i12.PokemonModel>(
           this,
           Invocation.method(
-            #getPokemonById,
-            [number],
+            #getPokemon,
+            [pokemon],
           ),
         )),
-      ) as _i8.Future<_i5.PokemonModel>);
-  @override
-  _i8.Future<_i5.PokemonModel> getPokemonByName(String? name) =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #getPokemonByName,
-          [name],
-        ),
-        returnValue: _i8.Future<_i5.PokemonModel>.value(_FakePokemonModel_3(
-          this,
-          Invocation.method(
-            #getPokemonByName,
-            [name],
-          ),
-        )),
-        returnValueForMissingStub:
-            _i8.Future<_i5.PokemonModel>.value(_FakePokemonModel_3(
-          this,
-          Invocation.method(
-            #getPokemonByName,
-            [name],
-          ),
-        )),
-      ) as _i8.Future<_i5.PokemonModel>);
+      ) as _i7.Future<_i3.Either<_i8.Failure, _i12.PokemonModel>>);
 }
 
 /// A class which mocks [DBProvider].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockDBProvider extends _i1.Mock implements _i14.DBProvider {
+class MockDBProvider extends _i1.Mock implements _i13.DBProvider {
   @override
-  _i8.Future<_i6.Database> get database => (super.noSuchMethod(
+  _i7.Future<_i5.Database> get database => (super.noSuchMethod(
         Invocation.getter(#database),
-        returnValue: _i8.Future<_i6.Database>.value(_FakeDatabase_4(
+        returnValue: _i7.Future<_i5.Database>.value(_FakeDatabase_3(
           this,
           Invocation.getter(#database),
         )),
         returnValueForMissingStub:
-            _i8.Future<_i6.Database>.value(_FakeDatabase_4(
+            _i7.Future<_i5.Database>.value(_FakeDatabase_3(
           this,
           Invocation.getter(#database),
         )),
-      ) as _i8.Future<_i6.Database>);
+      ) as _i7.Future<_i5.Database>);
   @override
-  _i8.Future<_i6.Database> initDB() => (super.noSuchMethod(
+  _i7.Future<_i5.Database> initDB() => (super.noSuchMethod(
         Invocation.method(
           #initDB,
           [],
         ),
-        returnValue: _i8.Future<_i6.Database>.value(_FakeDatabase_4(
+        returnValue: _i7.Future<_i5.Database>.value(_FakeDatabase_3(
           this,
           Invocation.method(
             #initDB,
@@ -318,82 +244,61 @@ class MockDBProvider extends _i1.Mock implements _i14.DBProvider {
           ),
         )),
         returnValueForMissingStub:
-            _i8.Future<_i6.Database>.value(_FakeDatabase_4(
+            _i7.Future<_i5.Database>.value(_FakeDatabase_3(
           this,
           Invocation.method(
             #initDB,
             [],
           ),
         )),
-      ) as _i8.Future<_i6.Database>);
+      ) as _i7.Future<_i5.Database>);
   @override
-  _i8.Future<int> newRawPokemon(_i5.PokemonModel? pokemon) =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #newRawPokemon,
-          [pokemon],
-        ),
-        returnValue: _i8.Future<int>.value(0),
-        returnValueForMissingStub: _i8.Future<int>.value(0),
-      ) as _i8.Future<int>);
-  @override
-  _i8.Future<int> newPokemon(_i5.PokemonModel? pokemon) => (super.noSuchMethod(
+  _i7.Future<int> newPokemon(_i12.PokemonModel? pokemon) => (super.noSuchMethod(
         Invocation.method(
           #newPokemon,
           [pokemon],
         ),
-        returnValue: _i8.Future<int>.value(0),
-        returnValueForMissingStub: _i8.Future<int>.value(0),
-      ) as _i8.Future<int>);
+        returnValue: _i7.Future<int>.value(0),
+        returnValueForMissingStub: _i7.Future<int>.value(0),
+      ) as _i7.Future<int>);
   @override
-  _i8.Future<_i5.PokemonModel?> getPokemonById(int? id) => (super.noSuchMethod(
+  _i7.Future<_i12.PokemonModel?> getPokemonByRowId(int? id) =>
+      (super.noSuchMethod(
         Invocation.method(
-          #getPokemonById,
+          #getPokemonByRowId,
           [id],
         ),
-        returnValue: _i8.Future<_i5.PokemonModel?>.value(),
-        returnValueForMissingStub: _i8.Future<_i5.PokemonModel?>.value(),
-      ) as _i8.Future<_i5.PokemonModel?>);
+        returnValue: _i7.Future<_i12.PokemonModel?>.value(),
+        returnValueForMissingStub: _i7.Future<_i12.PokemonModel?>.value(),
+      ) as _i7.Future<_i12.PokemonModel?>);
   @override
-  _i8.Future<_i10.Pokemon?> getPokemonByPokemonId(int? id) =>
+  _i7.Future<_i9.Pokemon?> getPokemonByPokemonId(int? id) =>
       (super.noSuchMethod(
         Invocation.method(
           #getPokemonByPokemonId,
           [id],
         ),
-        returnValue: _i8.Future<_i10.Pokemon?>.value(),
-        returnValueForMissingStub: _i8.Future<_i10.Pokemon?>.value(),
-      ) as _i8.Future<_i10.Pokemon?>);
+        returnValue: _i7.Future<_i9.Pokemon?>.value(),
+        returnValueForMissingStub: _i7.Future<_i9.Pokemon?>.value(),
+      ) as _i7.Future<_i9.Pokemon?>);
   @override
-  _i8.Future<List<_i5.PokemonModel>> showFavoritePokemonList() =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #showFavoritePokemonList,
-          [],
-        ),
-        returnValue:
-            _i8.Future<List<_i5.PokemonModel>>.value(<_i5.PokemonModel>[]),
-        returnValueForMissingStub:
-            _i8.Future<List<_i5.PokemonModel>>.value(<_i5.PokemonModel>[]),
-      ) as _i8.Future<List<_i5.PokemonModel>>);
-  @override
-  _i8.Future<int> deletePokemon(int? id) => (super.noSuchMethod(
+  _i7.Future<int> deletePokemon(int? id) => (super.noSuchMethod(
         Invocation.method(
           #deletePokemon,
           [id],
         ),
-        returnValue: _i8.Future<int>.value(0),
-        returnValueForMissingStub: _i8.Future<int>.value(0),
-      ) as _i8.Future<int>);
+        returnValue: _i7.Future<int>.value(0),
+        returnValueForMissingStub: _i7.Future<int>.value(0),
+      ) as _i7.Future<int>);
   @override
-  _i8.Future<int> deleteAllPokemons() => (super.noSuchMethod(
+  _i7.Future<int> deleteAllPokemons() => (super.noSuchMethod(
         Invocation.method(
           #deleteAllPokemons,
           [],
         ),
-        returnValue: _i8.Future<int>.value(0),
-        returnValueForMissingStub: _i8.Future<int>.value(0),
-      ) as _i8.Future<int>);
+        returnValue: _i7.Future<int>.value(0),
+        returnValueForMissingStub: _i7.Future<int>.value(0),
+      ) as _i7.Future<int>);
 }
 
 /// A class which mocks [Client].
@@ -401,7 +306,7 @@ class MockDBProvider extends _i1.Mock implements _i14.DBProvider {
 /// See the documentation for Mockito's code generation for more information.
 class MockClient extends _i1.Mock implements _i4.Client {
   @override
-  _i8.Future<_i4.Response> head(
+  _i7.Future<_i4.Response> head(
     Uri? url, {
     Map<String, String>? headers,
   }) =>
@@ -411,7 +316,7 @@ class MockClient extends _i1.Mock implements _i4.Client {
           [url],
           {#headers: headers},
         ),
-        returnValue: _i8.Future<_i4.Response>.value(_FakeResponse_5(
+        returnValue: _i7.Future<_i4.Response>.value(_FakeResponse_4(
           this,
           Invocation.method(
             #head,
@@ -420,7 +325,7 @@ class MockClient extends _i1.Mock implements _i4.Client {
           ),
         )),
         returnValueForMissingStub:
-            _i8.Future<_i4.Response>.value(_FakeResponse_5(
+            _i7.Future<_i4.Response>.value(_FakeResponse_4(
           this,
           Invocation.method(
             #head,
@@ -428,9 +333,9 @@ class MockClient extends _i1.Mock implements _i4.Client {
             {#headers: headers},
           ),
         )),
-      ) as _i8.Future<_i4.Response>);
+      ) as _i7.Future<_i4.Response>);
   @override
-  _i8.Future<_i4.Response> get(
+  _i7.Future<_i4.Response> get(
     Uri? url, {
     Map<String, String>? headers,
   }) =>
@@ -440,7 +345,7 @@ class MockClient extends _i1.Mock implements _i4.Client {
           [url],
           {#headers: headers},
         ),
-        returnValue: _i8.Future<_i4.Response>.value(_FakeResponse_5(
+        returnValue: _i7.Future<_i4.Response>.value(_FakeResponse_4(
           this,
           Invocation.method(
             #get,
@@ -449,7 +354,7 @@ class MockClient extends _i1.Mock implements _i4.Client {
           ),
         )),
         returnValueForMissingStub:
-            _i8.Future<_i4.Response>.value(_FakeResponse_5(
+            _i7.Future<_i4.Response>.value(_FakeResponse_4(
           this,
           Invocation.method(
             #get,
@@ -457,13 +362,13 @@ class MockClient extends _i1.Mock implements _i4.Client {
             {#headers: headers},
           ),
         )),
-      ) as _i8.Future<_i4.Response>);
+      ) as _i7.Future<_i4.Response>);
   @override
-  _i8.Future<_i4.Response> post(
+  _i7.Future<_i4.Response> post(
     Uri? url, {
     Map<String, String>? headers,
     Object? body,
-    _i15.Encoding? encoding,
+    _i14.Encoding? encoding,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -475,7 +380,7 @@ class MockClient extends _i1.Mock implements _i4.Client {
             #encoding: encoding,
           },
         ),
-        returnValue: _i8.Future<_i4.Response>.value(_FakeResponse_5(
+        returnValue: _i7.Future<_i4.Response>.value(_FakeResponse_4(
           this,
           Invocation.method(
             #post,
@@ -488,7 +393,7 @@ class MockClient extends _i1.Mock implements _i4.Client {
           ),
         )),
         returnValueForMissingStub:
-            _i8.Future<_i4.Response>.value(_FakeResponse_5(
+            _i7.Future<_i4.Response>.value(_FakeResponse_4(
           this,
           Invocation.method(
             #post,
@@ -500,13 +405,13 @@ class MockClient extends _i1.Mock implements _i4.Client {
             },
           ),
         )),
-      ) as _i8.Future<_i4.Response>);
+      ) as _i7.Future<_i4.Response>);
   @override
-  _i8.Future<_i4.Response> put(
+  _i7.Future<_i4.Response> put(
     Uri? url, {
     Map<String, String>? headers,
     Object? body,
-    _i15.Encoding? encoding,
+    _i14.Encoding? encoding,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -518,7 +423,7 @@ class MockClient extends _i1.Mock implements _i4.Client {
             #encoding: encoding,
           },
         ),
-        returnValue: _i8.Future<_i4.Response>.value(_FakeResponse_5(
+        returnValue: _i7.Future<_i4.Response>.value(_FakeResponse_4(
           this,
           Invocation.method(
             #put,
@@ -531,7 +436,7 @@ class MockClient extends _i1.Mock implements _i4.Client {
           ),
         )),
         returnValueForMissingStub:
-            _i8.Future<_i4.Response>.value(_FakeResponse_5(
+            _i7.Future<_i4.Response>.value(_FakeResponse_4(
           this,
           Invocation.method(
             #put,
@@ -543,13 +448,13 @@ class MockClient extends _i1.Mock implements _i4.Client {
             },
           ),
         )),
-      ) as _i8.Future<_i4.Response>);
+      ) as _i7.Future<_i4.Response>);
   @override
-  _i8.Future<_i4.Response> patch(
+  _i7.Future<_i4.Response> patch(
     Uri? url, {
     Map<String, String>? headers,
     Object? body,
-    _i15.Encoding? encoding,
+    _i14.Encoding? encoding,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -561,7 +466,7 @@ class MockClient extends _i1.Mock implements _i4.Client {
             #encoding: encoding,
           },
         ),
-        returnValue: _i8.Future<_i4.Response>.value(_FakeResponse_5(
+        returnValue: _i7.Future<_i4.Response>.value(_FakeResponse_4(
           this,
           Invocation.method(
             #patch,
@@ -574,7 +479,7 @@ class MockClient extends _i1.Mock implements _i4.Client {
           ),
         )),
         returnValueForMissingStub:
-            _i8.Future<_i4.Response>.value(_FakeResponse_5(
+            _i7.Future<_i4.Response>.value(_FakeResponse_4(
           this,
           Invocation.method(
             #patch,
@@ -586,13 +491,13 @@ class MockClient extends _i1.Mock implements _i4.Client {
             },
           ),
         )),
-      ) as _i8.Future<_i4.Response>);
+      ) as _i7.Future<_i4.Response>);
   @override
-  _i8.Future<_i4.Response> delete(
+  _i7.Future<_i4.Response> delete(
     Uri? url, {
     Map<String, String>? headers,
     Object? body,
-    _i15.Encoding? encoding,
+    _i14.Encoding? encoding,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -604,7 +509,7 @@ class MockClient extends _i1.Mock implements _i4.Client {
             #encoding: encoding,
           },
         ),
-        returnValue: _i8.Future<_i4.Response>.value(_FakeResponse_5(
+        returnValue: _i7.Future<_i4.Response>.value(_FakeResponse_4(
           this,
           Invocation.method(
             #delete,
@@ -617,7 +522,7 @@ class MockClient extends _i1.Mock implements _i4.Client {
           ),
         )),
         returnValueForMissingStub:
-            _i8.Future<_i4.Response>.value(_FakeResponse_5(
+            _i7.Future<_i4.Response>.value(_FakeResponse_4(
           this,
           Invocation.method(
             #delete,
@@ -629,9 +534,9 @@ class MockClient extends _i1.Mock implements _i4.Client {
             },
           ),
         )),
-      ) as _i8.Future<_i4.Response>);
+      ) as _i7.Future<_i4.Response>);
   @override
-  _i8.Future<String> read(
+  _i7.Future<String> read(
     Uri? url, {
     Map<String, String>? headers,
   }) =>
@@ -641,11 +546,11 @@ class MockClient extends _i1.Mock implements _i4.Client {
           [url],
           {#headers: headers},
         ),
-        returnValue: _i8.Future<String>.value(''),
-        returnValueForMissingStub: _i8.Future<String>.value(''),
-      ) as _i8.Future<String>);
+        returnValue: _i7.Future<String>.value(''),
+        returnValueForMissingStub: _i7.Future<String>.value(''),
+      ) as _i7.Future<String>);
   @override
-  _i8.Future<_i16.Uint8List> readBytes(
+  _i7.Future<_i15.Uint8List> readBytes(
     Uri? url, {
     Map<String, String>? headers,
   }) =>
@@ -655,19 +560,19 @@ class MockClient extends _i1.Mock implements _i4.Client {
           [url],
           {#headers: headers},
         ),
-        returnValue: _i8.Future<_i16.Uint8List>.value(_i16.Uint8List(0)),
+        returnValue: _i7.Future<_i15.Uint8List>.value(_i15.Uint8List(0)),
         returnValueForMissingStub:
-            _i8.Future<_i16.Uint8List>.value(_i16.Uint8List(0)),
-      ) as _i8.Future<_i16.Uint8List>);
+            _i7.Future<_i15.Uint8List>.value(_i15.Uint8List(0)),
+      ) as _i7.Future<_i15.Uint8List>);
   @override
-  _i8.Future<_i4.StreamedResponse> send(_i4.BaseRequest? request) =>
+  _i7.Future<_i4.StreamedResponse> send(_i4.BaseRequest? request) =>
       (super.noSuchMethod(
         Invocation.method(
           #send,
           [request],
         ),
         returnValue:
-            _i8.Future<_i4.StreamedResponse>.value(_FakeStreamedResponse_6(
+            _i7.Future<_i4.StreamedResponse>.value(_FakeStreamedResponse_5(
           this,
           Invocation.method(
             #send,
@@ -675,14 +580,14 @@ class MockClient extends _i1.Mock implements _i4.Client {
           ),
         )),
         returnValueForMissingStub:
-            _i8.Future<_i4.StreamedResponse>.value(_FakeStreamedResponse_6(
+            _i7.Future<_i4.StreamedResponse>.value(_FakeStreamedResponse_5(
           this,
           Invocation.method(
             #send,
             [request],
           ),
         )),
-      ) as _i8.Future<_i4.StreamedResponse>);
+      ) as _i7.Future<_i4.StreamedResponse>);
   @override
   void close() => super.noSuchMethod(
         Invocation.method(

@@ -10,6 +10,7 @@ import 'package:mockito/mockito.dart' as _i1;
 import 'package:poke_app/core/database/db_provider.dart' as _i2;
 import 'package:poke_app/core/entities/pokemon.dart' as _i7;
 import 'package:poke_app/core/error/failure.dart' as _i6;
+import 'package:poke_app/core/models/core_models.dart' as _i8;
 import 'package:poke_app/features/favorite_pokemon/data/repositories/favorite_pokemon_repository_impl.dart'
     as _i4;
 
@@ -113,29 +114,31 @@ class MockFavoritePokemonRepositoryImpl extends _i1.Mock
         )),
       ) as _i5.Future<_i3.Either<_i6.Failure, _i7.Pokemon>>);
   @override
-  _i5.Future<_i3.Either<_i6.Failure, List<_i7.Pokemon>>>
-      showFavoritePokemonList() => (super.noSuchMethod(
-            Invocation.method(
-              #showFavoritePokemonList,
-              [],
-            ),
-            returnValue:
-                _i5.Future<_i3.Either<_i6.Failure, List<_i7.Pokemon>>>.value(
-                    _FakeEither_1<_i6.Failure, List<_i7.Pokemon>>(
-              this,
-              Invocation.method(
-                #showFavoritePokemonList,
-                [],
-              ),
-            )),
-            returnValueForMissingStub:
-                _i5.Future<_i3.Either<_i6.Failure, List<_i7.Pokemon>>>.value(
-                    _FakeEither_1<_i6.Failure, List<_i7.Pokemon>>(
-              this,
-              Invocation.method(
-                #showFavoritePokemonList,
-                [],
-              ),
-            )),
-          ) as _i5.Future<_i3.Either<_i6.Failure, List<_i7.Pokemon>>>);
+  _i5.Future<
+      _i3.Either<_i6.Failure,
+          List<_i8.PokemonModel>>> showFavoritePokemonList() =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #showFavoritePokemonList,
+          [],
+        ),
+        returnValue:
+            _i5.Future<_i3.Either<_i6.Failure, List<_i8.PokemonModel>>>.value(
+                _FakeEither_1<_i6.Failure, List<_i8.PokemonModel>>(
+          this,
+          Invocation.method(
+            #showFavoritePokemonList,
+            [],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i5.Future<_i3.Either<_i6.Failure, List<_i8.PokemonModel>>>.value(
+                _FakeEither_1<_i6.Failure, List<_i8.PokemonModel>>(
+          this,
+          Invocation.method(
+            #showFavoritePokemonList,
+            [],
+          ),
+        )),
+      ) as _i5.Future<_i3.Either<_i6.Failure, List<_i8.PokemonModel>>>);
 }

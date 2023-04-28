@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:poke_app/core/widgets/widgets.dart';
 import 'package:poke_app/features/favorite_pokemon/presentation/bloc/favorites_bloc.dart';
 
 import '../entities/pokemon.dart';
@@ -78,11 +79,12 @@ class FavoriteWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton(
+      elevation: 12,
       heroTag: null,
       onPressed: () {
-        favoriteAction(context, instance, position);
+        favoriteAction(context, instance, position.toString());
       },
-      backgroundColor: Colors.black,
+      backgroundColor: Colors.red,
       child: const Icon(
         Icons.favorite,
         color: Colors.white,
@@ -105,7 +107,6 @@ class TypeWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.red,
       width: 300,
       child: Text(
         textAlign: TextAlign.center,
@@ -169,7 +170,6 @@ class IdWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.red,
       width: 300,
       child: Text(
         textAlign: TextAlign.center,
@@ -191,36 +191,11 @@ class NameWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.red,
       width: 300,
       child: Text(
         textAlign: TextAlign.center,
         pokemon.name,
         style: const TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
-      ),
-    );
-  }
-}
-
-class ResetButtonWidget extends StatelessWidget {
-  final bool instance;
-  const ResetButtonWidget({
-    super.key,
-    required this.instance,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return FloatingActionButton(
-      heroTag: null,
-      onPressed: () {
-        resetState(context, instance);
-      },
-      backgroundColor: Colors.red,
-      child: const Icon(
-        Icons.restart_alt,
-        color: Colors.white,
-        size: 50,
       ),
     );
   }
@@ -240,18 +215,17 @@ class SpecialStatWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: 350,
-      margin: EdgeInsets.symmetric(horizontal: 20),
-      color: Colors.red,
+      margin: const EdgeInsets.symmetric(horizontal: 20),
       child: Column(
         children: [
           Text(
             pokemon.stats[position].stat.name,
-            style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+            style: const TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
             textAlign: TextAlign.center,
           ),
           Text(
             pokemon.stats[position].baseStat.toString(),
-            style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+            style: const TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
             textAlign: TextAlign.center,
           ),
         ],
@@ -274,18 +248,17 @@ class StatWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: Container(
-        margin: EdgeInsets.symmetric(horizontal: 20),
-        color: Colors.red,
+        margin: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(
           children: [
             Text(
               pokemon.stats[position].stat.name,
-              style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+              style: const TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
               textAlign: TextAlign.center,
             ),
             Text(
               pokemon.stats[position].baseStat.toString(),
-              style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+              style: const TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
               textAlign: TextAlign.center,
             ),
           ],
@@ -295,27 +268,11 @@ class StatWidget extends StatelessWidget {
   }
 }
 
-void dispatchNamedPokemon(BuildContext context, String input) {
-  BlocProvider.of<PokemonSearchBloc>(context).add(GetPokemonForName(input));
-}
-
-void dispatchNumberedPokemon(BuildContext context, String input) {
-  BlocProvider.of<PokemonSearchBloc>(context).add(GetPokemonForId(input));
-}
-
-void resetState(BuildContext context, bool page) {
+void favoriteAction(BuildContext context, bool page, String pokemon) {
   if (page == true) {
-    BlocProvider.of<PokemonSearchBloc>(context).add(const Reset());
-  } else {
-    BlocProvider.of<FavoritesBloc>(context).add(const ResetFavorite());
-  }
-}
-
-void favoriteAction(BuildContext context, bool page, int id) {
-  if (page == true) {
-    BlocProvider.of<PokemonSearchBloc>(context).add(AddFavorite(id));
+    BlocProvider.of<PokemonSearchBloc>(context).add(AddFavorite(pokemon));
   } else {
     BlocProvider.of<FavoritesBloc>(context)
-        .add(DeleteFavoritePokemonFromDB(id));
+        .add(DeleteFavoritePokemonFromDB(int.parse(pokemon)));
   }
 }
