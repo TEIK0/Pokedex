@@ -10,7 +10,7 @@ import 'package:poke_app/core/models/pokemon_model.dart';
 import 'package:poke_app/core/util/input_converter.dart';
 import 'package:poke_app/features/pokemon_search/data/datasources/pokemon_search_remote_data_source.dart';
 import 'package:poke_app/features/pokemon_search/domain/usecases/get_pokemon.dart';
-import 'package:poke_app/features/pokemon_search/presentation/bloc/pokemon_search_bloc.dart';
+import 'package:poke_app/features/pokemon_search/presentation/search_whit_bloc/bloc/pokemon_search_bloc.dart';
 import '../../../../fixtures/fixture_reader.dart';
 @GenerateNiceMocks([
   MockSpec<GetPokemon>(),

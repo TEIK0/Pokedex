@@ -3,12 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poke_app/core/widgets/widgets.dart';
 import 'package:poke_app/features/favorite_pokemon/presentation/bloc/favorites_bloc.dart';
 
+import '../../features/pokemon_search/presentation/search_whit_bloc/bloc/pokemon_search_bloc.dart';
 import '../entities/pokemon.dart';
-import '../../features/pokemon_search/presentation/bloc/pokemon_search_bloc.dart';
 
 class PokemonResultDisplay extends StatelessWidget {
   final Pokemon pokemon;
-  final bool instance;
+  final String instance;
   const PokemonResultDisplay({
     super.key,
     required this.pokemon,
@@ -44,7 +44,18 @@ class PokemonResultDisplay extends StatelessWidget {
             const SizedBox(
               height: 35,
             ),
-            StatRowWidget(pokemon: pokemon, position1: 0, position2: 1),
+            Wrap(children: [
+              StatWidget(
+                pokemon: pokemon,
+                position: 0,
+              ),
+              StatWidget(pokemon: pokemon, position: 1),
+              StatWidget(pokemon: pokemon, position: 2),
+              StatWidget(pokemon: pokemon, position: 5),
+              StatWidget(pokemon: pokemon, position: 3),
+              StatWidget(pokemon: pokemon, position: 4),
+            ]),
+            /*StatRowWidget(pokemon: pokemon, position1: 0, position2: 1),
             const SizedBox(
               height: 35,
             ),
@@ -52,14 +63,10 @@ class PokemonResultDisplay extends StatelessWidget {
             const SizedBox(
               height: 35,
             ),
-            SpecialStatWidget(pokemon: pokemon, position: 3),
+            StatRowWidget(pokemon: pokemon, position1: 3, position2: 4),
             const SizedBox(
               height: 35,
-            ),
-            SpecialStatWidget(pokemon: pokemon, position: 4),
-            const SizedBox(
-              height: 35,
-            ),
+            ),*/
           ],
         ),
       ),
@@ -68,7 +75,7 @@ class PokemonResultDisplay extends StatelessWidget {
 }
 
 class FavoriteWidget extends StatelessWidget {
-  final bool instance;
+  final String instance;
   final int position;
   const FavoriteWidget({
     super.key,
@@ -107,35 +114,11 @@ class TypeWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 300,
       child: Text(
         textAlign: TextAlign.center,
         pokemon.types[index].type.name,
         style: const TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
       ),
-    );
-  }
-}
-
-class StatRowWidget extends StatelessWidget {
-  const StatRowWidget({
-    super.key,
-    required this.pokemon,
-    required this.position1,
-    required this.position2,
-  });
-
-  final Pokemon pokemon;
-  final int position1;
-  final int position2;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        StatWidget(pokemon: pokemon, position: position1),
-        StatWidget(pokemon: pokemon, position: position2),
-      ],
     );
   }
 }
@@ -170,7 +153,6 @@ class IdWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 300,
       child: Text(
         textAlign: TextAlign.center,
         pokemon.id.toString(),
@@ -191,44 +173,10 @@ class NameWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 300,
       child: Text(
         textAlign: TextAlign.center,
         pokemon.name,
         style: const TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
-      ),
-    );
-  }
-}
-
-class SpecialStatWidget extends StatelessWidget {
-  const SpecialStatWidget({
-    super.key,
-    required this.pokemon,
-    required this.position,
-  });
-
-  final Pokemon pokemon;
-  final int position;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 350,
-      margin: const EdgeInsets.symmetric(horizontal: 20),
-      child: Column(
-        children: [
-          Text(
-            pokemon.stats[position].stat.name,
-            style: const TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
-            textAlign: TextAlign.center,
-          ),
-          Text(
-            pokemon.stats[position].baseStat.toString(),
-            style: const TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
-            textAlign: TextAlign.center,
-          ),
-        ],
       ),
     );
   }
@@ -248,7 +196,8 @@ class StatWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 20),
+        width: 400,
+        margin: const EdgeInsets.all(20),
         child: Column(
           children: [
             Text(
@@ -268,10 +217,11 @@ class StatWidget extends StatelessWidget {
   }
 }
 
-void favoriteAction(BuildContext context, bool page, String pokemon) {
-  if (page == true) {
+void favoriteAction(BuildContext context, String page, String pokemon) {
+  if (page == "SearchBloc") {
     BlocProvider.of<PokemonSearchBloc>(context).add(AddFavorite(pokemon));
-  } else {
+  } else if (page == 'SearchProvider') {
+  } else if (page == 'Favorite') {
     BlocProvider.of<FavoritesBloc>(context)
         .add(DeleteFavoritePokemonFromDB(int.parse(pokemon)));
   }

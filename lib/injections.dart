@@ -9,13 +9,14 @@ import 'package:poke_app/features/favorite_pokemon/presentation/bloc/favorites_b
 import 'package:poke_app/features/pokemon_search/data/datasources/pokemon_search_remote_data_source.dart';
 import 'package:poke_app/features/pokemon_search/data/repositories/pokemon_search_repositoty_impl.dart';
 import 'package:poke_app/features/pokemon_search/domain/usecases/get_pokemon.dart';
-import 'package:poke_app/features/pokemon_search/presentation/bloc/pokemon_search_bloc.dart';
 
 import 'core/database/db_provider.dart';
 import 'core/network/network_info.dart';
 import 'core/util/input_converter.dart';
 import 'features/favorite_pokemon/domain/usecases/delete_favorite_pokemon.dart';
 import 'features/pokemon_search/domain/repositories/pokemon_search_repository.dart';
+import 'features/pokemon_search/presentation/search_whit_bloc/bloc/pokemon_search_bloc.dart';
+import 'features/pokemon_search/presentation/search_whit_provider/notifiers/search_notifier.dart';
 
 final GetIt sl = GetIt.instance;
 
@@ -40,6 +41,7 @@ Future<void> init() async {
   sl.registerLazySingleton(() => http.Client());
   sl.registerLazySingleton(() => InternetConnectionChecker());
   sl.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(sl()));
+  sl.registerLazySingleton(() => SearchNotifier(getPokemon: sl()));
 
   //Reguster Favorites Feature complements
   sl.registerLazySingleton(() => GetFavoritePokemon(sl()));

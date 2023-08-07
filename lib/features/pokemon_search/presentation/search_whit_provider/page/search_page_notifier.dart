@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:poke_app/features/pokemon_search/presentation/bloc/pokemon_search_bloc.dart';
-import 'package:poke_app/injections.dart';
-import '../../../../core/widgets/widgets.dart';
+import 'package:provider/provider.dart';
 
-import '../../../../core/widgets/pokemon_result_display.dart';
+import '../../../../../core/widgets/loading_display.dart';
+import '../../../../../core/widgets/message_display.dart';
+import '../../../../../core/widgets/pokemon_result_display.dart';
+import '../notifiers/search_notifier.dart';
 
-class SearchPage extends StatefulWidget {
+class SearchNotifierPage extends StatefulWidget {
   @override
-  State<SearchPage> createState() => _SearchPageState();
+  State<SearchNotifierPage> createState() => _SearchPageNotifierState();
 }
 
-class _SearchPageState extends State<SearchPage> {
+class _SearchPageNotifierState extends State<SearchNotifierPage> {
   final controller = TextEditingController();
   late String input;
   @override
@@ -20,45 +20,32 @@ class _SearchPageState extends State<SearchPage> {
       backgroundColor: Colors.white,
       appBar: appBar(context),
       body: SingleChildScrollView(
-          child: BlocProvider(
-        create: (_) => sl<PokemonSearchBloc>(),
-        child: Center(
-          child: Padding(
-            padding: const EdgeInsets.all(10),
-            child: Column(
-              children: <Widget>[
-                const SizedBox(
-                  height: 10,
-                ),
-                BlocBuilder<PokemonSearchBloc, PokemonSearchState>(
-                  builder: (context, state) {
-                    if (state is Empty) {
-                      return emptyStateShow(context);
-                    } else if (state is Error) {
-                      return MessageDisplay(
-                        message: state.message,
-                      );
-                    } else if (state is Loading) {
-                      return LoadingDisplay();
-                    } else if (state is Loaded) {
-                      return PokemonResultDisplay(
-                        pokemon: state.pokemon,
-                        instance: true,
-                      );
-                    } else {
-                      return const Text('Fatal error');
-                    }
-                  },
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-              ],
-            ),
-          ),
-        ),
-      )),
+        child: _body(),
+      ),
     );
+  }
+
+  Widget _body() {
+    final isLoading = context.select((SearchNotifier n) => n.isLoading);
+    final error = context.select((SearchNotifier n) => n.error);
+    final pokemon = context.select((SearchNotifier n) => n.pokemon);
+    final called = context.select((SearchNotifier n) => n.called);
+    if (!isLoading! && called == false) {
+      return emptyStateShow(context);
+    } else if (error != null) {
+      return MessageDisplay(
+        message: error,
+      );
+    } else if (isLoading) {
+      return LoadingDisplay();
+    } else if (!isLoading && called == true) {
+      return PokemonResultDisplay(
+        pokemon: pokemon!,
+        instance: "SearchProvider",
+      );
+    } else {
+      return const Text('Fatal error');
+    }
   }
 
   Center emptyStateShow(BuildContext context) {
@@ -83,7 +70,7 @@ class _SearchPageState extends State<SearchPage> {
               input = value;
             },
             onSubmitted: (_) {
-              dispatchPokemon(context, input);
+              context.read<SearchNotifier>().searchPokemon(input);
             },
             cursorColor: Colors.black,
             textAlign: TextAlign.center,
@@ -122,8 +109,4 @@ class _SearchPageState extends State<SearchPage> {
       ],
     );
   }
-}
-
-void dispatchPokemon(BuildContext context, String input) {
-  BlocProvider.of<PokemonSearchBloc>(context).add(GetSearchedPokemon(input));
 }

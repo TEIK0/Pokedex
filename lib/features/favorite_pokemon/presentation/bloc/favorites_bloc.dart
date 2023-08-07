@@ -8,7 +8,6 @@ import 'package:poke_app/features/favorite_pokemon/domain/usecases/show_favorite
 
 import '../../../../core/entities/pokemon.dart';
 import '../../../../core/error/failure.dart';
-import '../../../pokemon_search/presentation/bloc/pokemon_search_bloc.dart';
 import '../../data/repositories/favorite_pokemon_repository_impl.dart';
 
 part 'favorites_event.dart';

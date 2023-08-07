@@ -13,7 +13,7 @@ class MessageDisplay extends StatelessWidget {
         child: Column(
           children: [
             const SizedBox(height: 5),
-            const ResetButtonWidget(instance: true),
+            const ResetButtonWidget(instance: "SearchProvider"),
             const SizedBox(height: 20),
             Text(
               message,

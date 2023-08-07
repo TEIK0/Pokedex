@@ -32,7 +32,7 @@ class _FavoritesPage extends State<FavoritesPage> {
             } else if (state is LoadedFavorite) {
               return PokemonResultDisplay(
                 pokemon: state.pokemon,
-                instance: false,
+                instance: "Favorite",
               );
             } else if (state is LoadedList) {
               if (state.pokemon.isNotEmpty) {

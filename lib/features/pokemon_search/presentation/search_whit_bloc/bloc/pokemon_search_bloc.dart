@@ -5,10 +5,10 @@ import 'package:poke_app/core/entities/pokemon.dart';
 import 'package:poke_app/core/models/core_models.dart';
 import 'package:poke_app/features/pokemon_search/domain/usecases/get_pokemon.dart';
 
-import '../../../../core/database/db_provider.dart';
-import '../../../../core/error/failure.dart';
-import '../../../../core/util/input_converter.dart';
-import '../../data/datasources/pokemon_search_remote_data_source.dart';
+import '../../../../../core/database/db_provider.dart';
+import '../../../../../core/error/failure.dart';
+import '../../../../../core/util/input_converter.dart';
+import '../../../data/datasources/pokemon_search_remote_data_source.dart';
 
 part 'pokemon_search_event.dart';
 part 'pokemon_search_state.dart';
